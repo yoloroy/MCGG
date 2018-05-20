@@ -1,6 +1,6 @@
 function love.load(arg)
     player = require("player")
-    dir = {"", ""}
+    dir = {hori = 0, verti = 0}
     back_color = {r = 88, g = 199, b = 167}
 end
 
@@ -11,41 +11,45 @@ function love.draw()
     player.render()
 end
 
---[[function love.keypressed(key, unicode)
-    print(key)
+function love.keypressed(key, unicode)
     if key == "left" or key == "a" then
-        player.go("W", dt)
+        dir.hori = dir.hori - 1
     end
 
     if key == "right" or key == "d" then
-        player.go("E", dt)
+        dir.hori = dir.hori + 1
     end
 
     if key == "up" or key == "w" then
-        player.go("N", dt)
+        dir.verti = dir.verti - 1
     end
 
     if key == "down" or key == "s" then
-        player.go("S", dt)
+        dir.verti = dir.verti + 1
     end
-end]]
+    print (dir.hori, dir.verti)
+end
+
+function love.keyreleased(key, unicode)
+    if key == "left" or key == "a" then
+        dir.hori = dir.hori + 1
+    end
+
+    if key == "right" or key == "d" then
+        dir.hori = dir.hori - 1
+    end
+
+    if key == "up" or key == "w" then
+        dir.verti = dir.verti + 1
+    end
+
+    if key == "down" or key == "s" then
+        dir.verti = dir.verti - 1
+    end
+end
 
 function love.update(dt)
-    if love.keyboard.isDown("left") or love.keyboard.isDown("a") then
-        player.go("W", dt)
-    end
-
-    if love.keyboard.isDown("right") or love.keyboard.isDown("d") then
-        player.go("E", dt)
-    end
-
-    if love.keyboard.isDown("up") or love.keyboard.isDown("w") then
-        player.go("N", dt)
-    end
-
-    if love.keyboard.isDown("down") or love.keyboard.isDown("s") then
-        player.go("S", dt)
-    end
-    player.go(" ", dt)
+    player.go({dir.hori, dir.verti}, dt)
+    player.go({0, 0}, dt)
 end
 
